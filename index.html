@@ -4,28 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#001529">
-    <title>webale</title>
+    <title>Webale - Transform sheets to website in minutes!</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
         body, html {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            height: 200vh;
-            background-color: rgb(0, 17, 34);
+            font-family: 'Poppins', Arial, sans-serif;
+            height: 100vh;
+            background-color: #000814;
+            overflow-x: hidden;
         }
         .hero {
             min-height: 100vh;
-            background-color: #001529;
+            background-color: #000814;
             background-image: 
-                linear-gradient(rgb(0, 17, 34),rgba(0, 23, 45, 0.7), rgb(0, 17, 34)),
-                linear-gradient(to right, #0050b3 1px, transparent 1px),
-                linear-gradient(to bottom, #0050b3 1px, transparent 1px);
-            background-size: 100% 100%, 40px 40px, 40px 40px;
+                radial-gradient(circle at 10% 20%, rgba(0, 41, 107, 0.8) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 82, 212, 0.6) 0%, transparent 40%),
+                linear-gradient(to right, #001529 1px, transparent 1px),
+                linear-gradient(to bottom, #001529 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
             display: flex;
             flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0, 41, 107, 0.3) 0%, rgba(0, 82, 212, 0.3) 100%);
+            filter: blur(100px);
+            z-index: 0;
         }
         header {
             padding: 1rem;
+            position: relative;
+            z-index: 1;
         }
         nav {
             display: flex;
@@ -37,50 +56,78 @@
             align-items: center;
         }
         .logo img {
-            max-height: 40px; /* Adjust the height of the SVG */
+            max-height: 40px;
             width: auto;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
         }
         .nav-links {
-            position: relative; /* Required for absolute positioning of hover area */
-
+            position: relative;
         }
         .hover-area {
             display: flex;
-            padding: 1rem; /* Increase padding around links */
+            padding: 1rem;
         }
         .hover-area a {
             color: #a0aec0;
             text-decoration: none;
-            padding: 0.6rem 1rem; /* Keep link padding for click area */
-            transition: color 0.2s ease; /* Transition for link color */
+            padding: 0.6rem 1rem;
+            transition: all 0.3s ease;
             display: none;
+            position: relative;
+            overflow: hidden;
+        }
+        .hover-area a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #0050b3;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        .hover-area a:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
         }
         .hover-area a:hover {
-            color: white; /* Change color of the specific link on hover */
-            background-color: rgba(255, 255, 255, 0.05); /* Subtle background on hover */
-            border-radius: 999px; /* Rounded corners for effect */
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
-        /* Styling the Login button */
         .login-btn {
-            padding: 0.5rem 1rem;
-            border: 2px solid #a0aec0;
-            color: #a0aec0;
+            padding: 0.5rem 1.5rem;
+            border: 2px solid #0050b3;
+            color: #0050b3;
             border-radius: 9999px;
             background-color: transparent;
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: all 0.3s ease;
             margin-left: 15px;
-            margin-right: -10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        .login-btn:hover::before {
+            left: 100%;
         }
         .login-btn:hover {
             background-color: #0050b3;
             color: white;
-            border: 2px solid #0050b3;
-            box-shadow: 0 5px 15px rgba(0, 80, 179, .4);
+            box-shadow: 0 0 20px rgba(0, 80, 179, 0.6);
         }
-
         .hero-content {
             flex-grow: 1;
             display: flex;
@@ -89,102 +136,149 @@
             align-items: center;
             text-align: center;
             padding: 1rem;
-            margin-top: -60px;
+            position: relative;
+            z-index: 1;
         }
         h1 {
             color: white;
-            font-size: 2rem;
-            margin-bottom: 0;
-            max-width: 600px;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            max-width: 800px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            animation: fadeInUp 1s ease-out;
         }
         p {
             color: #a0aec0;
-            font-size: 1rem;
-            margin-bottom: 20px;
-            max-width: 400px;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.3s both;
         }
         .spreadsheet {
             height: 40px;
             color: white;
             margin-bottom: -5px;
-            filter: brightness(0) invert(1);
+            filter: brightness(0) invert(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+            animation: pulse 2s infinite;
         }
         .btn-container {
             display: flex;
             padding: auto;
             max-width: 90%;
             flex-direction: column;
-            gap: 10px;
+            gap: 20px;
             margin: 0;
             padding: 10px;
+            animation: fadeInUp 1s ease-out 0.6s both;
         }
         .cta-button {
-            background-color: #0050b3;
+            background: linear-gradient(45deg, #0050b3, #0077ff);
             color: white;
-            padding: 0.75rem 1rem;
+            padding: 0.75rem 2rem;
             border: none;
-            border-radius: 5px;
-            font-size: 1rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
             font-weight: bold;
             text-decoration: none;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: all 0.3s ease;
             width: 255px;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            transform: scale(0);
+            transition: transform 0.5s ease-out;
+        }
+        .cta-button:hover::before {
+            transform: scale(1);
         }
         .cta-button:hover {
-            background-color: #0050b3;
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 80, 179, .4);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 80, 179, 0.4);
         }
-        .webs-button{
-            padding: 0.70rem 1rem;
-            border: 2px solid #a0aec0;
-            color: #a0aec0;
-            border-radius: 5px;
+        .webs-button {
+            padding: 0.70rem 2rem;
+            border: 2px solid #0050b3;
+            color: #0050b3;
+            border-radius: 50px;
             background-color: transparent;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
             text-decoration: none;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: all 0.3s ease;
             width: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+        .webs-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 80, 179, 0.2), transparent);
+            transition: 0.5s;
+        }
+        .webs-button:hover::before {
+            left: 100%;
         }
         .webs-button:hover {
             border: 2px solid #ffffff;
             color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
         @media (min-width: 768px) {
             h1 {
-                font-size: 3rem;
+                font-size: 3.5rem;
             }
             p {
-                font-size: 1.2rem;
-                max-width: 600px;
+                font-size: 1.3rem;
             }
             .spreadsheet {
-                height: 50px;
+                height: 60px;
             }
             .hover-area {
                 display: flex;
-                padding: 1rem; /* Increase padding around links */
             }
             .hover-area a {
-                color: #a0aec0;
-                text-decoration: none;
-                padding: 0.6rem 1rem; /* Keep link padding for click area */
-                transition: color 0.2s ease; /* Transition for link color */
                 display: flex;
             }
             header {
-            padding: 0.5rem 1.5rem;
+                padding: 1rem 3rem;
             }
             .btn-container {
-                display: flex;
-                padding: auto;
-                max-width: 90%;
                 flex-direction: row;
-                gap: 10px;
-                margin: 0;
-                padding: 10px;
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
             }
         }
         ::-webkit-scrollbar {
@@ -210,14 +304,14 @@
             </nav>
         </header>
         <main class="hero-content">
-            <h1>Transform sheets <img src="spreadsheet.svg" class="spreadsheet"> to website in minutes</h1>
+            <h1>Transform sheets <img src="spreadsheet.svg" class="spreadsheet"> to stunning websites in minutes</h1>
             <p>
-              Webale is a user-friendly platform that lets you create websites without coding. Just use a spreadsheet-like interface to manage your content!</p>
+              Webale empowers you to create beautiful, responsive websites without coding. Our intuitive spreadsheet-like interface makes content management a breeze!</p>
               <div class="btn-container">
-                <a href="#" class="cta-button">Create Website</a>
-                <a href="#" class="webs-button">View Examples</a>
+                <a href="#" class="cta-button">Create Your Website</a>
+                <a href="#" class="webs-button">Explore Examples</a>
               </div>
-              <p style="margin: 0; font-size: 1rem;">Start for free! No credit card required.</p>
+              <p style="margin-top: 2rem; font-size: 1rem; opacity: 0.8;">Start your journey for free! No credit card required.</p>
         </main>
     </div>
 </body>
